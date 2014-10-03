@@ -27,7 +27,7 @@ PASSWORD_COMMON_SEQUENCES =  getattr(settings, "PASSWORD_COMMON_SEQUENCES", COMM
 PASSWORD_COMPLEXITY = getattr(settings, "PASSWORD_COMPLEXITY", None)
 
 class LengthValidator(object):
-    message = _("Your password is the wrong length and %s")
+    message = _("%s")
     code = "length"
 
     def __init__(self, min_length=None, max_length=None):
@@ -37,11 +37,11 @@ class LengthValidator(object):
     def __call__(self, value):
         if self.min_length and len(value) < self.min_length:
             raise ValidationError(
-                self.message % _("must be %s characters or more.") % self.min_length,
+                self.message % _("Must be %s characters or more.") % self.min_length,
                 code=self.code)
         elif self.max_length and len(value) > self.max_length:
             raise ValidationError(
-                self.message % _("must be %s characters or less.") % self.max_length,
+                self.message % _("Must be %s characters or less.") % self.max_length,
                 code=self.code)
 
 class ComplexityValidator(object):
@@ -83,7 +83,7 @@ class ComplexityValidator(object):
                 code=self.code)
         elif len(digits) < self.complexities.get("DIGITS", 0):
             raise ValidationError(
-                self.message % _("Must contain %(DIGITS)s or more different numbers.") % self.complexities,
+                self.message % _("Must contain %(DIGITS)s or more unique numbers.") % self.complexities,
                 code=self.code)
         elif len(punctuation) < self.complexities.get("PUNCTUATION", 0):
             raise ValidationError(
