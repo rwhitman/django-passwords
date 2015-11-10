@@ -11,3 +11,7 @@ build
 dist
 *.sublime-project
 *.sublime-workspace
+
+# OSX
+*.DS_Store
+.idea/

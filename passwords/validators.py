@@ -44,7 +44,7 @@ PASSWORD_COMPLEXITY = getattr(
 
 
 class LengthValidator(object):
-    message = _("Invalid Length (%s)")
+    message = _("%s")
     code = "length"
 
     def __init__(self, min_length=None, max_length=None):
@@ -54,16 +54,16 @@ class LengthValidator(object):
     def __call__(self, value):
         err = None
         if self.min_length is not None and len(value) < self.min_length:
-            err = _("Must be %s characters or more") % self.min_length
+            err = _("Must be %s characters or more.") % self.min_length
         elif self.max_length is not None and len(value) > self.max_length:
-            err = _("Must be %s characters or less") % self.max_length
+            err = _("Must be %s characters or less.") % self.max_length
 
         if err is not None:
             raise ValidationError(self.message % err, code=self.code)
 
 
 class ComplexityValidator(object):
-    message = _("Must be more complex (%s)")
+    message = _("Must contain %s")
     code = "complexity"
 
     def __init__(self, complexities):
@@ -95,11 +95,11 @@ class ComplexityValidator(object):
         errors = []
         if len(uppercase) < self.complexities.get("UPPER", 0):
             errors.append(
-                _("%(UPPER)s or more unique uppercase characters") %
+                _("%(UPPER)s or more unique uppercase letters") %
                 self.complexities)
         if len(lowercase) < self.complexities.get("LOWER", 0):
             errors.append(
-                _("%(LOWER)s or more unique lowercase characters") %
+                _("%(LOWER)s or more unique lowercase letters") %
                 self.complexities)
         if len(letters) < self.complexities.get("LETTERS", 0):
             errors.append(
@@ -107,15 +107,15 @@ class ComplexityValidator(object):
                 self.complexities)
         if len(digits) < self.complexities.get("DIGITS", 0):
             errors.append(
-                _("%(DIGITS)s or more unique digits") %
+                _("%(DIGITS)s or more unique numbers") %
                 self.complexities)
         if len(punctuation) < self.complexities.get("PUNCTUATION", 0):
             errors.append(
-                (_("%(PUNCTUATION)s or more unique punctuation characters: %%s"
+                (_("%(PUNCTUATION)s or more unique special characters: %%s"
                   ) % self.complexities) % string.punctuation)
         if len(special) < self.complexities.get("SPECIAL", 0):
             errors.append(
-                _("%(SPECIAL)s or more non unique special characters") %
+                _("%(SPECIAL)s or more non-unique special characters") %
                 self.complexities)
         if len(words) < self.complexities.get("WORDS", 0):
             errors.append(
@@ -129,7 +129,7 @@ class ComplexityValidator(object):
 
 
 class BaseSimilarityValidator(object):
-    message = _("Too Similar to [%(haystacks)s]")
+    message = _("Too similar to a known easy-to-guess password.")
     code = "similarity"
 
     def __init__(self, haystacks=None, threshold=None):
@@ -173,7 +173,7 @@ class BaseSimilarityValidator(object):
 
 
 class DictionaryValidator(BaseSimilarityValidator):
-    message = _("Based on a dictionary word")
+    message = _("Too similar to a known easy-to-guess password.")
     code = "dictionary_word"
 
     def __init__(self, words=None, dictionary=None, threshold=None):
@@ -192,7 +192,7 @@ class DictionaryValidator(BaseSimilarityValidator):
 
 
 class CommonSequenceValidator(BaseSimilarityValidator):
-    message = _("Based on a common sequence of characters")
+    message = _("Easy-to-guess sequence such as '12345', 'abcdef', 'qwerty' etc.")
     code = "common_sequence"
 
 
