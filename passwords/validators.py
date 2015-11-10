@@ -111,7 +111,7 @@ class ComplexityValidator(object):
                 self.complexities)
         if len(punctuation) < self.complexities.get("PUNCTUATION", 0):
             errors.append(
-                (_("%(PUNCTUATION)s or more unique special characters: %%s"
+                (_("%(PUNCTUATION)s or more unique punctuation characters: %%s"
                   ) % self.complexities) % string.punctuation)
         if len(special) < self.complexities.get("SPECIAL", 0):
             errors.append(
